@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>试用期转正自动化工具 · HRBP 操作台</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <h3>👤 当前操作人</h3>
+          <input type="text" id="operator-name" placeholder="例如：张三" aria-label="当前操作人" />
+        </div>
+        <div class="sidebar-section">
+          <h3>📋 快速导航</h3>
+          <p class="hint">点击下方卡片快速跳转</p>
+          <div class="nav-cards">
+            <button type="button" class="nav-card active" data-step="1">
+              <span class="icon">📁</span>
+              <span class="title">第一步：读取与展示数据</span>
+            </button>
+            <button type="button" class="nav-card" data-step="2">
+              <span class="icon">⏰</span>
+              <span class="title">第二步：自动筛选快到期</span>
+            </button>
+            <button type="button" class="nav-card" data-step="3">
+              <span class="icon">⚙️</span>
+              <span class="title">第三步：配置规则与发送</span>
+            </button>
+            <button type="button" class="nav-card" data-step="4">
+              <span class="icon">📊</span>
+              <span class="title">第四步：员工状态与催办</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <h1>🎯 试用期转正自动化工具</h1>
+          <span class="badge">HRBP 操作台 V1.2</span>
+        </header>
+
+        <section id="step-1">
+          <div class="step-banner">
+            <h2>第一步：读取与展示数据</h2>
+            <p>请在下方上传绩效相关 Excel（文件1），系统将按规则生成「待补考核」表（文件2）。支持 .xlsx / .xls。</p>
+            <p class="privacy-hint">
+              说明：解析与导出均在您本机浏览器内完成，表格不会上传到任何服务器（需能访问外网以加载 Excel 解析库）。
+            </p>
+          </div>
+
+          <div class="panel row-inline">
+            <div class="field">
+              <label for="ref-date">参考日期（用于计算「入职满几个月」）</label>
+              <input type="date" id="ref-date" />
+            </div>
+            <button type="button" class="btn btn-secondary" id="btn-regenerate">按参考日期重新计算</button>
+          </div>
+
+          <div class="panel">
+            <label>重新上传员工名单 / 绩效表（支持 .xlsx 或 .xls 格式）</label>
+            <div class="dropzone" id="dropzone">
+              <div class="dropzone-inner">
+                <div style="font-size: 36px; margin-bottom: 8px">☁️</div>
+                <div>在这里拖放文件</div>
+                <div style="font-size: 13px; color: #6b7280; margin-top: 6px">每个文件限制 200MB · XLSX, XLS</div>
+                <div class="browse-wrap">
+                  <input type="file" id="file-input" accept=".xlsx,.xls" class="hidden" />
+                  <label for="file-input" class="btn btn-secondary" style="cursor: pointer">浏览文件</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="notice-bar hidden" id="last-file-notice"></div>
+
+          <div class="toolbar">
+            <button type="button" class="btn btn-primary hidden" id="btn-download">生成并下载文件2（Excel）</button>
+          </div>
+
+          <div class="preview-wrap">
+            <table class="preview">
+              <thead>
+                <tr>
+                  <th>姓名</th>
+                  <th>导师</th>
+                  <th>入职日期</th>
+                  <th>待补考核内容</th>
+                  <th>delay月跨度</th>
+                </tr>
+              </thead>
+              <tbody id="preview-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="step-2" class="hidden">
+          <div class="step-banner">
+            <h2>第二步：自动筛选快到期</h2>
+            <p>可在此扩展：按试用期预计到期日筛选即将到期人员。</p>
+          </div>
+          <p class="placeholder-step">功能占位，可在后续版本接入筛选条件。</p>
+        </section>
+
+        <section id="step-3" class="hidden">
+          <div class="step-banner">
+            <h2>第三步：配置规则与发送</h2>
+            <p>
+              规则说明：入职日期 = 试用期预计到期日 − 6 个月；参考日期<strong>晚于</strong>试用期预计到期日视为已满试用期、已转正，无待补；「当前环节」空白视为环节正常，无待补；未满 1 个月时期望环节为「直属上级制定目标」；满 1
+              个月起再按入职满 M 个月推导期望环节；待补为当前未完成环节至期望环节（含）。
+            </p>
+          </div>
+          <p class="placeholder-step">可在此扩展通知模板与发送渠道。</p>
+        </section>
+
+        <section id="step-4" class="hidden">
+          <div class="step-banner">
+            <h2>第四步：员工状态与催办</h2>
+            <p>可在此扩展催办与跟进记录。</p>
+          </div>
+          <p class="placeholder-step">功能占位。</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="logic.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
