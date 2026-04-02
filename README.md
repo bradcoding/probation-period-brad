@@ -1,4 +1,4 @@
-# 试用期转正自动化工具（HRBP 操作台）
+# 试用期考核自动化工具（HRBP 操作台）
 
 纯静态网页：HTML + CSS + JavaScript，**无后端**。员工在浏览器中打开部署后的网址即可使用；Excel 在本地解析，**数据不上传服务器**（需能访问外网以加载 [SheetJS](https://sheetjs.com/) CDN）。
 
